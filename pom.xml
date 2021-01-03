@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.tristanjl</groupId>
     <artifactId>nb-externalcommmands</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>nbm</packaging>
     <name>nb-externalcommands</name>
     <url>https://github.com/tristanjl/netbeans-externalcommands</url>
@@ -20,7 +20,7 @@
         <connection>scm:git:https://github.com/tristanjl/netbeans-externalcommands.git</connection>
         <developerConnection>scm:git:https://github.com/tristanjl/netbeans-externalcommands.git</developerConnection>
         <url>https://github.com/tristanjl/netbeans-externalcommands/tree/main</url>
-        <tag>nb-externalcommmands-1.1</tag>
+        <tag>main</tag>
     </scm>
     <licenses>
         <license>
