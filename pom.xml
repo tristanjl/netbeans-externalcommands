@@ -5,8 +5,53 @@
     <artifactId>nb-externalcommmands</artifactId>
     <version>1.0</version>
     <packaging>nbm</packaging>
+    <name>nb-externalcommands</name>
+    <url>https://github.com/tristanjl/netbeans-externalcommands</url>
+    <description>Netbeans External Commands Plugin</description>
+    <developers>
+        <developer>
+            <id>tristanjl</id>
+            <name>Tristan Lewis</name>
+            <email>tristanjl@hotmail.com</email>
+            <url>https://github.com/tristanjl</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/tristanjl/netbeans-externalcommands.git</connection>
+        <developerConnection>scm:git:https://github.com/tristanjl/netbeans-externalcommands.git</developerConnection>
+        <url>https://github.com/tristanjl/netbeans-externalcommands/tree/main</url>
+        <tag>main</tag>
+    </scm>
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.netbeans.utilities</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
@@ -31,6 +76,20 @@
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
