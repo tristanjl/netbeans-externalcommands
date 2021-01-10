@@ -9,6 +9,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import org.apache.commons.lang3.SystemUtils;
 import org.openide.loaders.*;
 import org.openide.awt.StatusDisplayer;
 import org.openide.filesystems.FileObject;
@@ -57,6 +58,10 @@ public class ExternalCommandAction {
             else
             {
                 filePath = fileobject.getPath();
+                if (SystemUtils.IS_OS_WINDOWS)
+                {
+                    filePath = filePath.replace("/", "\\");
+                }
             }
             
             commandString = commandString.replace("${FilePath}", filePath);
@@ -91,30 +96,8 @@ public class ExternalCommandAction {
             
             mOutput.getOut().println(dtf.format(now) + " - " + commandString);
             mOutput.getOut().println("");
-            
-            String processCommand;
-            String argString;
-            if (commandString.startsWith("\""))
-            {
-                int quoteIndex = commandString.indexOf("\"", 1);
-                processCommand = commandString.substring(1, quoteIndex);
-                argString = commandString.substring(quoteIndex + 1);
-            }
-            else if (commandString.startsWith("'"))
-            {
-                int quoteIndex = commandString.indexOf("'", 1);
-                processCommand = commandString.substring(1, quoteIndex);
-                argString = commandString.substring(quoteIndex + 1);
-            }
-            else
-            {
-                int spaceIndex = commandString.indexOf(" ", 0);
-                processCommand = commandString.substring(0, spaceIndex);
-                argString = commandString.substring(spaceIndex + 1);
-            }
-            List<String> processArgs = new ArrayList<>(Arrays.asList(argString.split(" ")));
-            processArgs.add(0, processCommand);
-            ProcessBuilder pb = new ProcessBuilder(processArgs).redirectErrorStream(true);
+
+            ProcessBuilder pb = new ProcessBuilder(Utilities.parseParameters(commandString)).redirectErrorStream(true);
             Process process = pb.start();
             StringBuilder result = new StringBuilder(80);
             try (BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream())))
